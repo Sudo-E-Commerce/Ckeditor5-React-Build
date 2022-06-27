@@ -1,0 +1,87 @@
+<!DOCTYPE html><!--
+	Copyright (c) 2014-2022, CKSource Holding sp. z o.o. All rights reserved.
+	This file is licensed under the terms of the MIT License (see LICENSE.md).
+-->
+
+<html lang="en" dir="ltr">
+	<head>
+		<title>CKEditor 5 ClassicEditor build</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="https://c.cksource.com/a/1/logos/ckeditor5.png">
+		<link rel="stylesheet" type="text/css" href="styles.css">
+	</head>
+	<body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
+		<div class="editor"></div>
+		<script src="../build/ckeditor.js"></script>
+		<script>
+			const customImage = () => {
+				window.editor.model.change( writer => {
+                    const imageElement = writer.createElement( 'imageBlock', {
+                        src: 'https://cdn.topz.vn/topz/2022/06/truyen-ngon-tinh-dai-thuc-loli-2.jpg'
+                    } );
+
+                    // Insert the image in the current selection location.
+                    editor.model.insertContent( imageElement, window.editor.model.document.selection );
+                } );
+			}
+			// function Ck toc tham khảo admin.topz
+			const CKToc  = () => {
+				console.log('Init cktoc success')
+			}
+			// function HighLight tham khảo admin.topz
+			const HighLight  = () => {
+				console.log('Init HighLight success')
+			}
+			// function BestOffer tham khảo admin.topz
+			const BestOffer  = () => {
+				console.log('Init BestOffer success')
+			}
+			ClassicEditor
+				.create( document.querySelector( '.editor' ), {
+	                heading: {
+	                    options: [
+	                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+	                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+	                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+	                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+	                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+	                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+	                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
+	                    ]
+	                },
+	                dnvImage: customImage,
+					dnvCKToc: CKToc,
+					dnvHighLight: HighLight,
+					dnvBestOffer: BestOffer,
+					inlineStyles: true,
+					// add config link a
+					link: {
+						decorators: {
+							openInNewTab: {
+								mode: 'manual',
+								label: 'Open in a new tab',
+								attributes: {
+									target: '_blank',
+								}
+							},
+							noFlow: {
+								mode: 'manual',
+								label: 'Nofllow',
+								attributes: {
+									rel: 'Nofllow'
+								}
+							}
+						}
+					}
+	            })
+				.then( editor => {
+					window.editor = editor;
+				} )
+				.catch( error => {
+					console.warn( 'Init ckeditor error' );
+                	console.error( error );
+				} );
+		</script>
+	</body>
+</html>
