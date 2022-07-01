@@ -76,7 +76,7 @@ import ImageCustom from './imageCustom';
 import TableOfContent from './tableOfContent'
 import TopzHighlight from './topzHighlight';
 import BestOffer from './bestOffer';
-import CustomInsertHtml from './customInsertHtml';
+import InsertImage from './insertImage';
 
 class Editor extends ClassicEditor {}
 
@@ -153,7 +153,8 @@ Editor.builtinPlugins = [
 	TableOfContent,
 	TopzHighlight,
 	BestOffer,
-	Alignment
+	Alignment,
+	InsertImage
 ];
 
 // Editor configuration.
@@ -184,6 +185,7 @@ Editor.defaultConfig = {
 			'undo',
 			'redo',
 			'|',
+			'insertImage',
 			'imageCustom',
 			'tableOfContent',
 			'topzHighlight',
