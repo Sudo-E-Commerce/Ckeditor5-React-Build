@@ -8,8 +8,8 @@ class BestOffer extends Plugin {
         editor.ui.componentFactory.add( 'bestOffer', locale => {
             const view = new ButtonView( locale );
             view.set( {
-                Text: 'Ưu đãi tốt nhất',
-                label: 'Ưu đãi tốt nhất',
+                Text: 'Nơi mua tốt nhất',
+                label: 'Nơi mua tốt nhất',
                 tooltip: true,
                 withText: true
             } );
