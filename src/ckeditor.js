@@ -207,7 +207,8 @@ Editor.defaultConfig = {
 			'specialCharacters',
 			'todoList',
 			'underline',
-			'layout'
+			'layout',
+			'findAndReplace'
 
 		],
 		shouldNotGroupWhenFull: true
@@ -270,8 +271,8 @@ Editor.defaultConfig = {
 	htmlSupport: {
 		allow: [
 			{
-				name: /.*/,
-				attributes: true,
+				name: /^[a-zA-Z]/,
+				attributes: /[a-zA-Z]$/,
 				classes: true,
 				styles: true
 			}
