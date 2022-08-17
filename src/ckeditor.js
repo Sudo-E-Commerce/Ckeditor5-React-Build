@@ -75,7 +75,6 @@ import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 import ImageCustom from './imageCustom';
 import TableOfContent from './tableOfContent'
 import TopzHighlight from './topzHighlight';
-import BestOffer from './bestOffer';
 import InsertImage from './insertImage';
 
 class Editor extends ClassicEditor {}
@@ -152,7 +151,6 @@ Editor.builtinPlugins = [
 	ImageCustom,
 	TableOfContent,
 	TopzHighlight,
-	BestOffer,
 	Alignment,
 	InsertImage
 ];
@@ -189,7 +187,6 @@ Editor.defaultConfig = {
 			'imageCustom',
 			'tableOfContent',
 			'topzHighlight',
-			'bestOffer',
 			'|',
 			'highlight',
 			'horizontalLine',
