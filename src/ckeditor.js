@@ -189,6 +189,7 @@ Editor.defaultConfig = {
 			'imageCustom',
 			'tableOfContent',
 			'topzHighlight',
+			'topzLink',
 			'bestOffer',
 			'|',
 			'highlight',
