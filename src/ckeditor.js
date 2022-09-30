@@ -199,6 +199,7 @@ Editor.defaultConfig = {
 			'contentButton',
 			'relatedButton',
 			'advantagesButton',
+			'chanhLink',
 			'|',
 			'highlight',
 			'horizontalLine',

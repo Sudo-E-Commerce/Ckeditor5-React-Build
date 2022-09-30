@@ -1,6 +1,6 @@
 import { Plugin } from "@ckeditor/ckeditor5-core";
 import { ButtonView } from "@ckeditor/ckeditor5-ui";
-
+import swal from "sweetalert2";
 class AddMorePlugin extends Plugin {
 	init() {
         const editor = this.editor;
@@ -75,6 +75,49 @@ class AddMorePlugin extends Plugin {
 
             return view;
         });
+        editor.ui.componentFactory.add( 'chanhLink', locale => {
+            const view = new ButtonView( locale );
+            view.set( {
+                Text: 'Button Link',
+                label: 'Button Link',
+                tooltip: true,
+                withText: true
+            } );
+            view.on( 'execute', () => {
+                new swal( {
+                    title: 'Nhập button link',
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Thêm mới",
+                    cancelButtonText: "Đóng",
+                    closeOnCancel: false,
+                    html:
+                    '<input id="namechanhLink" class="swal2-input" placeholder="Tiêu đề button">' +
+                    '<input id="hrefchanhLink" class="swal2-input" placeholder="Link">',
+                    preConfirm: () => {
+                        if (document.getElementById('namechanhLink').value && document.getElementById('hrefchanhLink').value) {
+                            return {
+                                name: document.getElementById('namechanhLink').value,
+                                link: document.getElementById('hrefchanhLink').value
+                            }
+                        } else {
+                            new swal.showValidationMessage('Tiêu đề và link là bắt buộc!')   
+                        }
+                    }
+                } )
+                .then ( result => {
+                    if(result.value && result.value.name && result.value.link){
+                        editor.model.change( writer => {
+                            let text = `[link titlelink="${result.value.name}" linkweb="${result.value.link}"]`;
+                            const txt = writer.createText(text);
+                            editor.model.insertContent( txt, editor.model.document.selection );
+                        });
+                    }
+                } )
+            });
+
+            return view;
+        } );
 	}
 }
 
