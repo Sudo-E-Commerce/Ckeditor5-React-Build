@@ -97,8 +97,8 @@ class AddMorePlugin extends Plugin {
                     preConfirm: () => {
                         if (document.getElementById('namechanhLink').value && document.getElementById('hrefchanhLink').value) {
                             return {
-                                name: document.getElementById('namechanhLink').value,
-                                link: document.getElementById('hrefchanhLink').value
+                                name: document.getElementById('namechanhLink').value.trim(),
+                                link: document.getElementById('hrefchanhLink').value.trim()
                             }
                         } else {
                             new swal.showValidationMessage('Tiêu đề và link là bắt buộc!')   
