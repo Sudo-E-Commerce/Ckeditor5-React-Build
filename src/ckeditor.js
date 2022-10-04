@@ -273,9 +273,9 @@ Editor.defaultConfig = {
 		allow: [
 			{
 				name: /^[a-zA-Z]/,
-				attributes: /[a-zA-Z]$/,
+				attributes: /^[A-Z_\-a-z]+$/,
 				classes: true,
-				styles: true
+				styles: false
 			}
 		]
 	}	
