@@ -261,10 +261,10 @@ Editor.defaultConfig = {
 	htmlSupport: {
 		allow: [
 			{
-				name: /.*/,
-				attributes: true,
+				name: /^[a-zA-Z]/,
+				attributes: /^[A-Z_\-a-z]+$/,
 				classes: true,
-				styles: true
+				styles: false
 			}
 		]
 	}	
