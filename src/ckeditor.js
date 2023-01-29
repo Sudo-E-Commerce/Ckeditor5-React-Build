@@ -74,7 +74,7 @@ import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 import Layout from "../src/layout";
 
 import ImageCustom from './imageCustom';
-import TableOfContent from './tableOfContent'
+// import TableOfContent from './tableOfContent'
 import TopzHighlight from './topzHighlight';
 import BestOffer from './bestOffer';
 import InsertImage from './insertImage';
@@ -153,7 +153,7 @@ Editor.builtinPlugins = [
 	WordCount,
 	Layout,
 	ImageCustom,
-	TableOfContent,
+	// TableOfContent,
 	TopzHighlight,
 	BestOffer,
 	Alignment,
@@ -191,7 +191,7 @@ Editor.defaultConfig = {
 			'|',
 			'insertImage',
 			'imageCustom',
-			'tableOfContent',
+			// 'tableOfContent',
 			'topzHighlight',
 			'bestOffer',
 			'faqButton',
