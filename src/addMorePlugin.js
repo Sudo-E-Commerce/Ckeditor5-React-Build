@@ -109,9 +109,11 @@ class AddMorePlugin extends Plugin {
                     if(result.value && result.value.name && result.value.link){
                         editor.model.change( writer => {
                             let text = `[link titlelink="${result.value.name}" linkweb="${result.value.link}"]`;
-                            const txt = writer.createText(text);
-                            editor.model.insertContent( txt, editor.model.document.selection );
+                            writer.insertText(text, editor.model.document.selection.getFirstPosition() );
+
                         });
+                        editor.editing.view.focus();
+                        editor.editing.view.scrollToTheSelection();
                     }
                 } )
             });
