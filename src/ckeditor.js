@@ -72,13 +72,13 @@ import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline.js';
 import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount.js';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 import Layout from "../src/layout";
-
 import ImageCustom from './imageCustom';
 // import TableOfContent from './tableOfContent'
 import TopzHighlight from './topzHighlight';
 import BestOffer from './bestOffer';
 import InsertImage from './insertImage';
 import AddMorePlugin from './addMorePlugin';
+import AutoContent from './autoContent';
 
 class Editor extends ClassicEditor {}
 
@@ -158,7 +158,8 @@ Editor.builtinPlugins = [
 	BestOffer,
 	Alignment,
 	InsertImage,
-	AddMorePlugin
+	AddMorePlugin,
+	AutoContent
 ];
 
 // Editor configuration.
@@ -209,7 +210,11 @@ Editor.defaultConfig = {
 			'todoList',
 			'underline',
 			'layout',
-			'findAndReplace'
+			'findAndReplace',
+			// '|',
+			// 'auto_content_write',
+			// 'auto_content_rewrite',
+			// 'auto_content_describe',
 
 		],
 		shouldNotGroupWhenFull: true

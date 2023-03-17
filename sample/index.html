@@ -37,8 +37,19 @@
 			const BestOffer  = () => {
 				console.log('Init BestOffer success')
 			}
+			console.log(ClassicEditor.defaultConfig.toolbar.items);
 			ClassicEditor
 				.create( document.querySelector( '.editor' ), {
+					toolbar: {
+						'items' : [
+							...ClassicEditor.defaultConfig.toolbar.items,
+							'|',
+							'auto_content_write',
+							'auto_content_rewrite',
+							'auto_content_describe',
+						],
+						shouldNotGroupWhenFull: true,
+					},
 	                heading: {
 	                    options: [
 	                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
