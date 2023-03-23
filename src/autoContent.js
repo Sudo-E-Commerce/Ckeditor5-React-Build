@@ -8,8 +8,8 @@ class AutoContent extends Plugin {
         editor.ui.componentFactory.add( 'auto_content_write', locale => {
             const view = new ButtonView( locale );
             view.set( {
-                Text: 'Viết',
-                label: 'Viết',
+                Text: 'Viết thêm',
+                label: 'Viết thêm',
                 tooltip: true,
                 withText: true
             } );
