@@ -5,10 +5,10 @@ import {
     toWidget,
     viewToModelPositionOutsideModelElement,
 } from "@ckeditor/ckeditor5-widget/src/utils";
-
+import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
 class AddMorePlugin extends Plugin {
     static get requires() {
-        return [Widget];
+        return [CodeBlock, Widget];
     }
     init() {
         const editor = this.editor;
@@ -94,10 +94,11 @@ class AddMorePlugin extends Plugin {
         // this._defineClipboardInputOutput();
         // but in the view it is a more complex structure.
         editor.editing.mapper.on(
-            "viewToModelPosition",
-            viewToModelPositionOutsideModelElement(this.editor.model, (viewElement) =>
-                viewElement.hasClass("lock-box")
-            )
+          "viewToModelPosition",
+          viewToModelPositionOutsideModelElement(
+            this.editor.model,
+            (viewElement) => viewElement.hasClass("lock-box")
+          )
         );
     }
     _defineSchema() {
@@ -113,17 +114,17 @@ class AddMorePlugin extends Plugin {
         const conversion = this.editor.conversion;
         // Data-to-model conversion.
         conversion.for("upcast").elementToElement({
-            view: {
-                name: "code",
-                classes: ["lock-box"],
-                contenteditable: false
-            },
-            model: (viewElement, { writer }) => {
-                return writer.createElement(
-                "lock-box",
-                getCardDataFromViewElement(viewElement)
-                );
-            },
+          view: {
+            name: "pre",
+            classes: ["lock-box"],
+            contenteditable: false,
+          },
+          model: (viewElement, { writer }) => {
+            return writer.createElement(
+              "lock-box",
+              getCardDataFromViewElement(viewElement)
+            );
+          },
         });
 
         // Model-to-data conversion.
@@ -146,14 +147,14 @@ class AddMorePlugin extends Plugin {
             const type = modelItem.getAttribute("type");
             const content = modelItem.getAttribute("content");
 
-            const cardView = viewWriter.createContainerElement("code", {
-                class: "lock-box",
-                id: `${type}-${new Date().getTime()}`,
-                contenteditable: false
+            const cardView = viewWriter.createContainerElement("pre", {
+              class: "lock-box",
+              id: `${type}-${new Date().getTime()}`,
+              contenteditable: false,
             });
             viewWriter.insert(
-                viewWriter.createPositionAt(cardView, "end"),
-                viewWriter.createText(content)
+              viewWriter.createPositionAt(cardView, "end"),
+              viewWriter.createText(content)
             );
 
             return cardView;
@@ -161,14 +162,14 @@ class AddMorePlugin extends Plugin {
     }
 }
 function getCardDataFromViewElement(viewElement) {
-    let idElement = viewElement.getAttribute('id')
+    let idElement = viewElement.getAttribute("id");
     if (idElement) {
         idElement = idElement.split('-')[0]
     }
-      return {
+    return {
         content: getText(viewElement),
-        type: idElement
-      };
+        type: idElement,
+    };
 }
 function getText(viewElement) {
   return Array.from(viewElement.getChildren())
