@@ -229,58 +229,6 @@
 					}
 	            })
 				.then( editor => {
-					editor.editing.view.document.on('keydown', (evt, data) => {
-						const keystroke = data.keystroke;
-						let oldData = editor.getData()
-						const target = editor.editing.view.document.selection.focus;
-						const range = document.getSelection()
-						let childNodeClass = range.anchorNode.nextSibling ? Array.from(range.anchorNode.nextSibling.classList || null) : []
-						if (!childNodeClass.length) {
-							let html = window.getSelection().anchorNode;
-							let node = html.parentNode;
-							let container = $(".lock-box");
-							let row = $(node).closest(container);
-							if (!row.length) {
-								row = $(node.nextSibling).find(container);
-							}
-							if (!row.length) {
-								row = node.nextSibling ? Array.from(node.nextSibling.classList || null) : [];
-							}
-							childNodeClass = row.length ? ['lock-box'] : []
-						}
-						const parentClass = Array.from(target.parent.parent ? target.parent.parent._classes : '')
-						// (target.parent.parent.name ? target.parent.parent.name : null)
-						// Kiểm tra nếu phần tử đang focus là div với id là box-lock
-						if (parentClass.includes('lock-box') || (keystroke == 46 && childNodeClass.includes('lock-box'))) {
-							data.preventDefault();
-							editor.enableReadOnlyMode('chanhLink');
-						} else {
-							editor.disableReadOnlyMode('chanhLink')
-						}
-					}, { priority: 'highest' });
-					editor.editing.view.document.on('click', (evt, data) => {
-						const keystroke = data.keystroke;
-						const target = editor.editing.view.document.selection.focus;
-						const parentClass = Array.from(target.parent.parent ? target.parent.parent._classes : '')
-						const parentClassNext = Array.from(target.parent.parent && target.parent.parent.parent ? target.parent.parent.parent._classes : '')
-						let idCurent = Array.from(target.parent.parent ? target.parent.parent._attrs : '')[0] || ''
-						if (idCurent == '') {
-							idCurent = Array.from(target.parent.parent && target.parent.parent.parent ? target.parent.parent.parent._attrs : '')[0] || ''
-						}
-						// console.log(idCurent[1], target.parent.parent)
-						// console.log(target, target.parent.parent.name)
-						// Kiểm tra nếu phần tử đang focus là div với id là box-lock
-						if (parentClass.includes('lock-box') || parentClassNext.includes('lock-box')) {
-							if(idCurent[1] != '') {
-								$('#' + idCurent[1]).addClass('code_selected_able')
-							}
-							// editor.enableReadOnlyMode('chanhLink');
-						} else {
-							editor.disableReadOnlyMode('chanhLink')
-							$('.popup_edit').css('display', 'none')
-							$('.button_action_insert').removeClass('active');
-						}
-					}, { priority: 'highest' });
 					window.editor = editor;
 				} )
 				.catch( error => {
@@ -291,7 +239,7 @@
 				$('body').on('click', '.lock-box', function(e){
 					let clientX = e.originalEvent.clientX
 					let clientY = e.originalEvent.clientY
-					window.editor.enableReadOnlyMode('chanhLink');
+					// window.editor.enableReadOnlyMode('chanhLink');
 					selectionItem = $(this).attr('id')
 					const element = document.querySelector('#'+selectionItem)
 					const rect = element.getBoundingClientRect();
@@ -305,31 +253,18 @@
 						'top': bottom + 20,
 						'left': (rect.width / 2) - 100
 					})
-					$('.button_action_insert').addClass('active');
-					let left = $(this).position().left
-					let top = $(this).position().top
-					let right = $(window).outerWidth() - ($(this).outerWidth() + $(this).position().left)
-					$('.button_insert_before').css({
-						'top': bottom - rect.height - 10,
-						'left': left
-					});
-					$('.button_insert_after').css({
-						'top': bottom - 15,
-						'right': right - 20
-					});
 				})
 				$('body').on('click', '.popup_action_accept', function(e){
 					let txt = $('.popup textarea').val()
-					let id = 'box-' + new Date().getTime()
-					let html = `<code class="lock-box ck-widget lock-box" id="${id}" contenteditable="false">[content="${txt}"]</code>`
-					let viewFragment = window.editor.data.processor.toView(html);
-					let modelFragment = window.editor.data.toModel(viewFragment);
-					window.editor.model.insertContent(modelFragment, window.editor.model.document.selection);
-					const widgetElement = window.editor.editing.view.domRoots
-						.get("main")
-						.querySelector(`#${id}`);
-					widgetElement.setAttribute("contenteditable", false);
 					$('.popup').removeClass('active')
+					
+					window.editor.model.change(writer => {
+						const lockBoxElement = writer.createElement("lock-box", {
+							type: "highlight",
+							content: txt
+						});
+						window.editor.model.insertContent(lockBoxElement);
+					});
 				})
 				$('body').on('click', '.popup_action_update', function(e){
 					let txt = $('.popup textarea').val()
@@ -367,60 +302,11 @@
 					$('.popup_action').toggleClass('edit')
 					$('.popup').addClass('active')
 				})
-				$('body').on('click', '.popup_edit .action .remove', function (e) {
-					let new_data = $('<div></div>');
-					new_data.append($('.ck-restricted-editing_mode_standard').html());
-					$(new_data).find('#' + selectionItem).remove();
-					selectionItem = null
-					html = new_data[0].innerHTML;
-					window.editor.execute('selectAll');
-					window.editor.setData(html);
-					$('.popup_edit').css('display', 'none')
-				})
-				var focusId = ''
-				$('body').on('click', '.button_insert_before', function(e){
-					let index_id = selectionItem;
-					let new_data = $('<div></div>');
-					new_data.append($('.ck-restricted-editing_mode_standard').html());
-					let id = focusId = 'paragraph-'+new Date().getTime()
-					$(new_data).find('#' + index_id).parent().before(`<p id="${id}"><br data-cke-filler="true"></p>`);
-					html = new_data[0].innerHTML;
-					window.editor.execute('selectAll');
-					window.editor.setData(html);
-					$('.popup_edit').css('display', 'none')
-					$('.button_action_insert').removeClass('active');
-					focusItem(1)
-				})
-				$('body').on('click', '.button_insert_after', function (e) {
-					let index_id = selectionItem;
-					let new_data = $('<div></div>');
-					new_data.append($('.ck-restricted-editing_mode_standard').html());
-					let id = focusId = 'paragraph-' + new Date().getTime()
-					$(new_data).find('#' + index_id).parent().after(`<p id="${id}" placeholder="Type something..."><br data-cke-filler="true"></p>`);
-					html = new_data[0].innerHTML;
-					window.editor.execute('selectAll');
-					window.editor.setData(html);
-					$('.popup_edit').css('display', 'none')
-					$('.button_action_insert').removeClass('active');
-					focusItem(1)
-				})
-				function focusItem(numberAdded) {
-					window.editor.disableReadOnlyMode('chanhLink')
-					editor.model.change(writer => {
-						const divElement = document.querySelector('#' + focusId)
-						const position = Array.from(divElement.parentNode.children).indexOf(divElement) + numberAdded
-						const currentElementIndex = editor.model.createPositionAt(editor.model.document.getRoot(), position)
-						const newRange = writer.createRange(currentElementIndex);
-						writer.setSelection(newRange);
-						window.editor.editing.view.focus();
-					})
-				}
 		</script>
 	</body>
 	<div class="popup_edit">
 		<input type="text">
 		<div class="action">
-			<p class="remove">remove</p>
 			<p class="edit">edit</p>
 			<p class="cancel">cancel</p>
 		</div>
@@ -439,20 +325,5 @@
 				<p class="popup_action_cancel">Hủy</p>
 			</div>
 		</div>
-	</div>
-	<div class="button_action_insert">
-		<button class="button_insert_before">
-			<svg xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 384 512">
-				<path
-					d="M32 64C14.3 64 0 49.7 0 32S14.3 0 32 0l96 0c53 0 96 43 96 96l0 306.7 73.4-73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-128 128c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 402.7 160 96c0-17.7-14.3-32-32-32L32 64z" />
-			</svg>
-		</button>
-		<button class="button_insert_after">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-				<path
-					d="M32 64C14.3 64 0 49.7 0 32S14.3 0 32 0l96 0c53 0 96 43 96 96l0 306.7 73.4-73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-128 128c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 402.7 160 96c0-17.7-14.3-32-32-32L32 64z" />
-			</svg>
-		</button>
 	</div>
 </html>
