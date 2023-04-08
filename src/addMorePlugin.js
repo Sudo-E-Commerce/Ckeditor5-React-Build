@@ -107,7 +107,7 @@ class AddMorePlugin extends Plugin {
           allowIn: "$root",
           isInline: false,
           isBlock: true,
-          allowAttributes: ["type", "content"],
+          allowAttributes: ["type", "content", "id"],
         });
     }
     _defineConverters() {
@@ -146,10 +146,11 @@ class AddMorePlugin extends Plugin {
         function createCardView(modelItem, viewWriter) {
             const type = modelItem.getAttribute("type");
             const content = modelItem.getAttribute("content");
+            const id = modelItem.getAttribute("id");
 
             const cardView = viewWriter.createContainerElement("pre", {
               class: "lock-box",
-              id: `${type}-${new Date().getTime()}`,
+              id: id,
               contenteditable: false,
             });
             viewWriter.insert(
@@ -163,12 +164,14 @@ class AddMorePlugin extends Plugin {
 }
 function getCardDataFromViewElement(viewElement) {
     let idElement = viewElement.getAttribute("id");
+    let type = null
     if (idElement) {
-        idElement = idElement.split('-')[0]
+        type = idElement.split("-")[0];
     }
     return {
-        content: getText(viewElement),
-        type: idElement,
+      content: getText(viewElement),
+      type: type,
+      id: idElement,
     };
 }
 function getText(viewElement) {
