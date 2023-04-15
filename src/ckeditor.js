@@ -265,11 +265,11 @@ Editor.defaultConfig = {
 					target: '_blank',
 				}
 			},
-			noFlow: {
+			noFollow: {
 				mode: 'manual',
-				label: 'Nofllow',
+				label: 'Nofollow',
 				attributes: {
-					rel: 'Nofllow'
+					rel: 'nofollow'
 				}
 			}
 		}
